@@ -73,15 +73,15 @@ files:
 	   touch Freq_noborder/$(ID)_$(m).png; \
 	   \
 	   ./bin/Convert2PSAM -source=v1 -inp=$(ID)_$(m).tmp -psam=$(ID)_$(m).xml ; \
-	   ./bin/LogoGenerator -file=$(ID)_$(m).xml -logo=Entropy/$(ID)_$(m).png  ; \
+	   ./bin/LogoGenerator -file=$(ID)_$(m).xml -logo=Entropy/$(ID)_$(m).png -rna ; \
 	   convert Entropy/$(ID)_$(m).png -fuzz 35% -opaque black -fill white -opaque grey -fill white -trim -bordercolor white -border 10x10 Entropy_noborder/$(ID)_$(m).png ; \
 	   convert Entropy/$(ID)_$(m).png -fuzz 35% -opaque black -fill white -opaque grey -fill white -trim -bordercolor white Entropy_noborder_trimmed/$(ID)_$(m).png ; \
 	   convert Entropy_noborder_trimmed/$(ID)_$(m).png -resize x100 Entropy_noborder_med/$(ID)_$(m).png ; \
 	   convert Entropy_noborder_trimmed/$(ID)_$(m).png -resize x50 Entropy_noborder_small/$(ID)_$(m).png ; \
 	   convert Entropy_noborder_trimmed/$(ID)_$(m).png -resize x70 Entropy_noborder_tiny/$(ID)_$(m).png ; \
-	   ./bin/LogoGenerator -file=$(ID)_$(m).xml -logo=Affinity/$(ID)_$(m).png -style=ddG ; \
+	   ./bin/LogoGenerator -file=$(ID)_$(m).xml -logo=Affinity/$(ID)_$(m).png -style=ddG -rna; \
 	   convert Affinity/$(ID)_$(m).png -fuzz 20% -opaque black -fill white -fuzz 18% -opaque gray\(47%\) -fill white -opaque gray\(27%\) -fill white -fuzz 10%  -opaque gray\(73%\) -fill white -fuzz 20% -trim -bordercolor white -border 10x10 Affinity_noborder/$(ID)_$(m).png ; \
-	   ./bin/LogoGenerator -file=$(ID)_$(m).xml -logo=Freq/$(ID)_$(m).png -style=freq ; \
+	   ./bin/LogoGenerator -file=$(ID)_$(m).xml -logo=Freq/$(ID)_$(m).png -style=freq -rna; \
 	   convert Freq/$(ID)_$(m).png -fuzz 35% -opaque black -fill white -opaque grey -fill white -trim -bordercolor white -border 10x10 Freq_noborder/$(ID)_$(m).png ; \
 	)
 	\
