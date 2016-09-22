@@ -1,0 +1,5 @@
+acgcgt # Spellman1998Alpha.resid.alpha_factor_release_sample016[4]
+0.001000 # p-value
+1210176  # bonferroni
+0 # derived from leading strand
+#	a                   	c                   	g        	u

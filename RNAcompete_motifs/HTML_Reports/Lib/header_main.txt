@@ -1,0 +1,7 @@
+<html>
+<head>
+<title>RNAcompete_results</title>
+<link rel="stylesheet" type="text/css" href="./style.css" />
+</head>
+<body>
+<h1>RNAcompete results index</h1>
