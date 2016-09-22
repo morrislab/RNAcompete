@@ -25,8 +25,8 @@ Clone or download the code and move the `/RNAcompete` folder to `$HOME` director
 	Download the version compatible with your system, unzip and move the `/REDUCE_Suite` folder to `$HOME/RNAcompete`
 
 
-### 2. Normalization ###
-### 3. Motif Generation ###
+### 3.  Normalization ###
+### 4.  Motif Generation ###
 
 
 
