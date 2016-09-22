@@ -15,7 +15,7 @@ Clone or download the code and move the `/RNAcompete` folder to `$HOME` director
 
     Add perl scripts to `$PATH` and Perl library:
     ```
-	export PATH=$HOME/RNAcompete/perl5/perl_tools:$PATH
+    export PATH=$HOME/RNAcompete/perl5/perl_tools:$PATH
     export PERL5LIB=$HOME/RNAcompete/perl5/perl_tools:$HOME/RNAcompete/perl5/modules:$PERL5LIB
     ```
 * [Matlab 2015b](https://www.mathworks.com/)
@@ -23,8 +23,7 @@ Clone or download the code and move the `/RNAcompete` folder to `$HOME` director
 * [ImageMagick](http://www.imagemagick.org/)
 * [REDUCE Suite 2](http://bussemakerlab.org/lab/)
 
-    Download the version compatible with your system, unzip and move the `/REDUCE_Suite` folder to `$HOME/RNAcompete`
-
+    Download the version compatible with your system, unzip and move the `/REDUCE_Suite` folder to `$HOME/RNAcompete`.
 
 ### 3.  Normalization ###
 ### 4.  Motif Generation ###
