@@ -2,7 +2,7 @@
 
 Data analysis scripts for the RNAcompete analysis.
 
-## Input ##
+## Input file##
 
 
 ## Running RNAcompete data analysis ##
