@@ -66,27 +66,23 @@ cd ~/RNAcompete/RNAcompete_motifs/Predictions/pwm_topX_w7/; make maker; make doi
 #### create motif logos ####
 
 ```
-cd ~/RNAcompete/RNAcompete_motifs/Figures/logos/;
-make maker;
-make doit
+cd ~/RNAcompete/RNAcompete_motifs/Figures/logos/; make maker; make doit
 ```
 
 #### generate IUPAC motifs ####
 
 ```
-cd ~/RNAcompete/RNAcompete_motifs/IUPACs/;
-make maker;
-make doit
+cd ~/RNAcompete/RNAcompete_motifs/IUPACs/; make maker; make doit
 ```
 
 #### create HTML output ####
 
 ```
-cd ~/RNAcompete/RNAcompete_motifs/
+cd ~/RNAcompete/RNAcompete_motifs/HTML_Reports/; make maker; make doit; make RNAcompete_report_index.html
 ```
 
-## Related Publication ##
+## Related Publications ##
 
-* D. Ray, H. Kazan, K.B. Cook, M.T. Weirauch, H.S. Najafabadi, X. Li, S. Gueroussov, M. Albu, H. Zheng, A. Yang, H. Na, M. Irimia, L.H. Matzat, R.K. Dale, S.A. Smith, C.A. Yarosh, S.M. Kelly, B. Nabet, D. Mecenas, W. Li, R.S. Laishram, M. Qiao, H.D. Lipshitz, F. Piano, A.H. Corbett, R.P. Carstens, B.J. Frey, R.A. Anderson, K.W. Lynch, L.O. Penalva, E.P. Lei, A.G. Fraser, B.J. Blencowe, Q.D. Morris, T.R. Hughes, **A compendium of RNA-binding motifs for decoding gene regulation**, *Nature* 499(7457) (2013) 172-7. [[Pubmed]](http://www.ncbi.nlm.nih.gov/pubmed/23846655)
+* D. Ray, H. Kazan, K.B. Cook, M.T. Weirauch, H.S. Najafabadi, X. Li, S. Gueroussov, M. Albu, H. Zheng, A. Yang, H. Na, M. Irimia, L.H. Matzat, R.K. Dale, S.A. Smith, C.A. Yarosh, S.M. Kelly, B. Nabet, D. Mecenas, W. Li, R.S. Laishram, M. Qiao, H.D. Lipshitz, F. Piano, A.H. Corbett, R.P. Carstens, B.J. Frey, R.A. Anderson, K.W. Lynch, L.O. Penalva, E.P. Lei, A.G. Fraser, B.J. Blencowe, Q.D. Morris, T.R. Hughes, **A compendium of RNA-binding motifs for decodng gene regulation**, *Nature* 499(7457) (2013) 172-7. [[Pubmed]](http://www.ncbi.nlm.nih.gov/pubmed/23846655)
 
 * D. Ray, H. Kazan, E.T. Chan, L. Pena Castillo, S. Chaudhry, S. Talukder, B.J. Blencowe, Q. Morris, T.R. Hughes, **Rapid and systematic analysis of the RNA recognition specificities of RNA-binding proteins**, *Nature biotechnology* 27(7) (2009) 667-70. [[Pubmed]](http://www.ncbi.nlm.nih.gov/pubmed/19561594)
