@@ -18,7 +18,7 @@ Clone or download the code and move the `/RNAcompete` folder to `$HOME` director
 
     Add perl scripts to `$PATH` and Perl library:
     ```
-    export PATH=$HOME/RNAcompete/perl5/perl_tools:$PATH
+    export PATH=$HOME/RNAcompete/perl5/perl_tools:$PATH;
     export PERL5LIB=$HOME/RNAcompete/perl5/perl_tools:$HOME/RNAcompete/perl5/modules:$PERL5LIB
     ```
 * [Matlab 2015b](https://www.mathworks.com/)
@@ -35,7 +35,7 @@ Clone or download the code and move the `/RNAcompete` folder to `$HOME` director
   * Run the following command to set up REDUCE Suite:
   
     ```
-    export REDUCE_SUITE=$HOME/RNAcompete/REDUCE_Suite
+    export REDUCE_SUITE=$HOME/RNAcompete/REDUCE_Suite;
     export PATH=$HOME/RNAcompete/REDUCE_Suite/bin:$PATH
     ```
 
