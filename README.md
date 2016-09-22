@@ -5,7 +5,7 @@ Data analysis scripts for the RNAcompete analysis.
 ## Input file##
 
 * [Too be added]
-* We included a **sample** `raw_data.txt` file in `~/RNAcompete/Normalization/run_normalization/`.
+* We included a **sample** `raw_data.txt` file in this package.
 
 ## Running RNAcompete data analysis ##
 
