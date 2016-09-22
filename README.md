@@ -2,6 +2,9 @@
 
 Data analysis scripts for the RNAcompete analysis.
 
+## Input ##
+
+
 ## Running RNAcompete data analysis ##
 
 ### 1. Download ###
@@ -26,6 +29,7 @@ Clone or download the code and move the `/RNAcompete` folder to `$HOME` director
     Download the version compatible with your system and move the `/REDUCE_Suite` folder to `$HOME/RNAcompete`.
 
 ### 3.  Normalization ###
+
 ### 4.  Motif Generation ###
 
 
