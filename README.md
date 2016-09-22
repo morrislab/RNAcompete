@@ -50,7 +50,7 @@ Clone or download the code and move the `/RNAcompete` folder to `$HOME` director
     ```
     
 * Download the [raw data sample file]() to `~/RNAcompete/Normalization/run_normalization/`
-* Copy and paste everything in `~/RNAcompete/Normalization/normalization_scripts` to `~/RNAcompete/Normalization/run_normalization` by running:
+* Copy and paste everything in `~/RNAcompete/Normalization/normalization_scripts/` to `~/RNAcompete/Normalization/run_normalization/` by running:
     
     ```
     cp ~/RNAcompete/Normalization/normalization_scripts/* ~/RNAcompete/Normalization/run_normalization/
