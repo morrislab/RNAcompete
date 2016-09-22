@@ -806,7 +806,7 @@ e_all.tab: e_setA.tab e_setB.tab e_setAB.tab
 	> e_setAB.tmp;
 	paste e_setA.tmp e_setB.tmp e_setAB.tmp \
 	| cut -f 1,2,4,6 \
-	| cap.pl 7mer,`cat $(INFOALLFILE) | grep -P '$(ID)\t' | cut -f 2`_e_setA,`cat $(INFOALLFILE) | grep -P '$(ID)\t' | cut -f 2`_e_setB,`cat $(INFOALLFILE) | grep -P '$(ID)\t' | cut -f 2`_e_setAB \
+	| cap.pl 7mer,`cat $(INFOALLFILE) | grep '$(ID)\t' | cut -f 2`_e_setA,`cat $(INFOALLFILE) | grep '$(ID)\t' | cut -f 2`_e_setB,`cat $(INFOALLFILE) | grep '$(ID)\t' | cut -f 2`_e_setAB \
 	> $@;
 	rm -f e_setA.tmp e_setB.tmp e_setAB.tmp;
 
@@ -824,7 +824,7 @@ z_all.tab: z_setA.tab z_setB.tab z_setAB.tab
 	> z_setAB.tmp;
 	paste z_setA.tmp z_setB.tmp z_setAB.tmp \
 	| cut -f 1,2,4,6 \
-	| cap.pl 7mer,`cat $(INFOALLFILE) | grep -P '$(ID)\t' | cut -f 2`_z_setA,`cat $(INFOALLFILE) | grep -P '$(ID)\t' | cut -f 2`_z_setB,`cat $(INFOALLFILE) | grep -P '$(ID)\t' | cut -f 2`_z_setAB \
+	| cap.pl 7mer,`cat $(INFOALLFILE) | grep '$(ID)\t' | cut -f 2`_z_setA,`cat $(INFOALLFILE) | grep '$(ID)\t' | cut -f 2`_z_setB,`cat $(INFOALLFILE) | grep '$(ID)\t' | cut -f 2`_z_setAB \
 	> $@;
 	rm -f z_setA.tmp z_setB.tmp z_setAB.tmp;
 

@@ -67,7 +67,7 @@ escores_setA_setB_firsthalf.txt:
 	> 1.tmp;
 	$(foreach c, $(CHILDREN_FIRSTHALF), \
 		cat ../info.tab \
-		| grep -P '$(c)\t' \
+		| grep '$(c)\t' \
 		| cut -f 3 \
 		| paste.pl -d '' $(c) _ - _ setA \
 		> h.tmp; \
@@ -78,7 +78,7 @@ escores_setA_setB_firsthalf.txt:
 		| paste 1.tmp - \
 		> 2.tmp; \
 		cat ../info.tab \
-		| grep -P '$(c)\t' \
+		| grep '$(c)\t' \
 		| cut -f 3 \
 		| paste.pl -d '' $(c) _ - _ setB \
 		> h.tmp; \
@@ -103,7 +103,7 @@ escores_setA_setB_secondhalf.txt:
 	> 1.tmp;
 	$(foreach c, $(CHILDREN_SECONDHALF), \
 		cat ../info.tab \
-		| grep -P '$(c)\t' \
+		| grep '$(c)\t' \
 		| cut -f 3 \
 		| paste.pl -d '' $(c) _ - _ setA \
 		> h.tmp; \
@@ -114,7 +114,7 @@ escores_setA_setB_secondhalf.txt:
 		| paste 1.tmp - \
 		> 2.tmp; \
 		cat ../info.tab \
-		| grep -P '$(c)\t' \
+		| grep '$(c)\t' \
 		| cut -f 3 \
 		| paste.pl -d '' $(c) _ - _ setA \
 		> h.tmp; \
@@ -258,7 +258,7 @@ escores_20150429.txt:
 	> 1.tmp;
 	$(foreach c, $(CHILDREN), \
 		cat ../info.tab \
-		| grep -P '$(c)\t' \
+		| grep '$(c)\t' \
 		| cut -f 3 \
 		| paste.pl -d '' $(c) _ - _ setA \
 		> h.tmp; \
@@ -269,7 +269,7 @@ escores_20150429.txt:
 		| paste 1.tmp - \
 		> 2.tmp; \
 		cat ../info.tab \
-		| grep -P '$(c)\t' \
+		| grep '$(c)\t' \
 		| cut -f 3 \
 		| paste.pl -d '' $(c) _ - _ setB \
 		> h.tmp; \
@@ -280,7 +280,7 @@ escores_20150429.txt:
 		| paste 2.tmp - \
 		> 1.tmp; \
 		cat ../info.tab \
-		| grep -P '$(c)\t' \
+		| grep '$(c)\t' \
 		| cut -f 3 \
 		| paste.pl -d '' $(c) _ - _ setAB \
 		> h.tmp; \
@@ -305,7 +305,7 @@ zscores_20150429.txt:
 	> 1.tmp;
 	$(foreach c, $(CHILDREN), \
 		cat ../info.tab \
-		| grep -P '$(c)\t' \
+		| grep '$(c)\t' \
 		| cut -f 3 \
 		| paste.pl -d '' $(c) _ - _ setA \
 		> h.tmp; \
@@ -316,7 +316,7 @@ zscores_20150429.txt:
 		| paste 1.tmp - \
 		> 2.tmp; \
 		cat ../info.tab \
-		| grep -P '$(c)\t' \
+		| grep '$(c)\t' \
 		| cut -f 3 \
 		| paste.pl -d '' $(c) _ - _ setB \
 		> h.tmp; \
@@ -327,7 +327,7 @@ zscores_20150429.txt:
 		| paste 2.tmp - \
 		> 1.tmp; \
 		cat ../info.tab \
-		| grep -P '$(c)\t' \
+		| grep '$(c)\t' \
 		| cut -f 3 \
 		| paste.pl -d '' $(c) _ - _ setAB \
 		> h.tmp; \
@@ -348,7 +348,7 @@ probe_scores_20150429.txt:
 	> 1.tmp;
 	$(foreach c, $(CHILDREN), \
 		cat ../info.tab \
-		| grep -P '$(c)\t' \
+		| grep '$(c)\t' \
 		| cut -f 3 \
 		| paste.pl -d '' $(c) _ - \
 		> h.tmp; \
