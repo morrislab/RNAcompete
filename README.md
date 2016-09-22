@@ -70,6 +70,7 @@ Clone or download the code and move the `/RNAcompete` folder to `$HOME` director
 * Move the normalization file (`PhaseVII_mad_col_quant_trim_5.txt`) for motif generation:
 
     ```
+    mkdir ~/RNAcompete/RNAcompete_motifs/Data/normalized_probe_scores;
     mv ~/RNAcompete/Normalization/run_normalization/PhaseVII_mad_col_quant_trim_5.txt ~/RNAcompete/RNAcompete_motifs/Data/normalized_probe_scores/
     ```
     
