@@ -8,6 +8,7 @@ Data analysis scripts for the RNAcompete analysis.
 
 Clone or download the code and move the `/RNAcompete` folder to `$HOME` directory.
 
+
 ### 2. Install dependencies ###
 
 * [Perl 5](https://www.perl.org/)
@@ -22,7 +23,7 @@ Clone or download the code and move the `/RNAcompete` folder to `$HOME` director
 * [ImageMagick](http://www.imagemagick.org/)
 * [REDUCE Suite 2](http://bussemakerlab.org/lab/)
 
-	Download the version compatible with your system, unzip and move the `/REDUCE_Suite` folder to `$HOME/RNAcompete`
+    Download the version compatible with your system, unzip and move the `/REDUCE_Suite` folder to `$HOME/RNAcompete`
 
 
 ### 3.  Normalization ###
