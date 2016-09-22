@@ -25,8 +25,19 @@ Clone or download the code and move the `/RNAcompete` folder to `$HOME` director
 * [R](https://www.r-project.org/)
 * [ImageMagick](http://www.imagemagick.org/)
 * [REDUCE Suite 2](http://bussemakerlab.org/lab/)
-
-    Download the version compatible with your system and move the `/REDUCE_Suite` folder to `~/RNAcompete`.
+  * Download the version compatible with your system and move the `/REDUCE_Suite` folder to `~/RNAcompete`.
+  * Check README by running:
+  
+    ```
+    cd ~/RNAcompete/REDUCE_Suite/bin; ./REDUCE_Suite_setup
+    ```
+    
+  * Run the following command to set up REDUCE Suite:
+  
+    ```
+    export REDUCE_SUITE=$HOME/RNAcompete/REDUCE_Suite
+    export PATH=$HOME/RNAcompete/REDUCE_Suite/bin:$PATH
+    ```
 
 ### 3.  Normalization ###
 
