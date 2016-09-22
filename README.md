@@ -34,7 +34,7 @@ Clone or download the code and move the `/RNAcompete` folder to `$HOME` director
 * Copy and paste everything in `~/RNAcompete/Normalization/normalization_scripts` to `~/RNAcompete/Normalization/run_normalization`
 * Run normalization from `/run_normalization` directory:
     ```
-    cd ~/RNAcompete/Normalization/run_normalization
+    cd ~/RNAcompete/Normalization/run_normalization/;
     ./scripts.sh
     ```
 
@@ -54,7 +54,7 @@ Clone or download the code and move the `/RNAcompete` folder to `$HOME` director
 #### calculate 7mer scores ####
 
 ```
-cd ~/RNAcompete/RNAcompete_motifs/Data/Training_Data;
+cd ~/RNAcompete/RNAcompete_motifs/Data/Training_Data/;
 make maker;
 make doit
 ```
@@ -62,7 +62,7 @@ make doit
 #### calculate motifs ####
 
 ```
-cd ~/RNAcompete/RNAcompete_motifs/Predictions/pwm_topX_w7;
+cd ~/RNAcompete/RNAcompete_motifs/Predictions/pwm_topX_w7/;
 make maker;
 make doit
 ```
@@ -70,7 +70,7 @@ make doit
 #### create motif logos ####
 
 ```
-cd ~/RNAcompete/RNAcompete_motifs/Figures/logos;
+cd ~/RNAcompete/RNAcompete_motifs/Figures/logos/;
 make maker;
 make doit
 ```
@@ -78,7 +78,7 @@ make doit
 #### generate IUPAC motifs ####
 
 ```
-cd ~/RNAcompete/RNAcompete_motifs/IUPACs;
+cd ~/RNAcompete/RNAcompete_motifs/IUPACs/;
 make maker;
 make doit
 ```
