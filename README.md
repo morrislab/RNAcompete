@@ -18,7 +18,7 @@ Clone or download the code and move the `/RNAcompete` folder to `$HOME` director
 
 * [Perl 5](https://www.perl.org/)
 
-    Add perl scripts to `$PATH` and Perl library:
+    Add our perl scripts to `$PATH` and Perl library:
     
     ```
     export PATH=$HOME/RNAcompete/perl5/perl_tools:$PATH;
