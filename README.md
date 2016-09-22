@@ -30,6 +30,13 @@ Clone or download the code and move the `/RNAcompete` folder to `$HOME` director
 
 ### 3.  Normalization ###
 
+* Download the [raw data sample file]() to `$HOME/RNAcompete/Normalization/run_normalization`
+* Copy files in `$HOME/RNAcompete/Normalization/normalization_scripts` to `$HOME/RNAcompete/Normalization/run_normalization`
+* Run normalization from `/run_normalization` directory:
+    ```
+    ./scripts.sh
+    ```
+
 ### 4.  Motif Generation ###
 
 
