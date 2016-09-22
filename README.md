@@ -56,7 +56,7 @@ Clone or download the code and move the `/RNAcompete` folder to `$HOME` director
 ```
 cd ~/RNAcompete/RNAcompete_motifs/Data/Training_Data/;
 make maker;
-make doit
+make doit;
 ```
     
 #### calculate motifs ####
