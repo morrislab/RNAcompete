@@ -4,6 +4,7 @@ Data analysis scripts for the RNAcompete analysis.
 
 ## Input file##
 
+TBA
 
 ## Running RNAcompete data analysis ##
 
@@ -49,7 +50,7 @@ Clone or download the code and move the `/RNAcompete` folder to `$HOME` director
     mkdir ~/RNAcompete/Normalization/run_normalization
     ```
     
-* Download the [raw data sample file]() to `~/RNAcompete/Normalization/run_normalization/`
+* Download the [raw data sample file (TBA)]() to `~/RNAcompete/Normalization/run_normalization/`
 * Copy and paste everything in `~/RNAcompete/Normalization/normalization_scripts/` to `~/RNAcompete/Normalization/run_normalization/` by running:
     
     ```
