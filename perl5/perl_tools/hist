@@ -1,0 +1,16 @@
+# First I'll create some data to plot
+x <- rnorm(300)
+y <- rnorm(300, mean=5, sd=5)
+
+# Now we'll compute the common breakpoints by doing a histogram of all the data together
+b <- hist(c(x,y), plot=F)
+
+# Plot the data from x with the computed breakpoints and a transparent color
+h1 <- hist(x, breaks=b$breaks, col="blue")
+
+par(new=TRUE)
+
+#Plot the data from y, with the computed breakpoints, a transparent color, and add it to the existing plot
+h2 <- hist(y, breaks=b$breaks, ann=FALSE, col="red")
+
+barplot(rbind(h1$counts,h2$counts),beside=TRUE)

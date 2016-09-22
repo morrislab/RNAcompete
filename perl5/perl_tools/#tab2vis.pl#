@@ -1,0 +1,584 @@
+#!/usr/bin/perl
+
+##############################################################################
+##############################################################################
+##
+## tab2vis.pl
+##
+##############################################################################
+##############################################################################
+##
+## Written by Josh Stuart.
+##
+##  Email address: jstuart@ucsc.edu
+##          Phone: (650) 725-7612
+##
+## Postal address: Department of Bioengineering, UCSC
+##                 1156 High Street
+##                 Santa Cruz, CA 95060
+##
+##       Web site: http://www.soe.ucsc.edu/~jstuart/
+##
+##############################################################################
+##############################################################################
+
+require "$ENV{MYPERLDIR}/lib/libfile.pl";
+require "$ENV{MYPERLDIR}/lib/libgraph.pl";
+require "$ENV{MYPERLDIR}/lib/libset.pl";
+
+use strict;
+use warnings;
+
+use Getopt::Long;
+use POSIX qw(ceil floor);
+
+my $VERSION = "1.0";
+
+# Flush output to STDOUT immediately.
+$| = 1;
+
+# How to generate a list of all the groups, from the links file:
+# list_all_groups:
+#  cut -f 4- links.tab	        \
+#  | perl -i -p -e 's/\s+/\n/g;'   \
+#  | sort -u > all_groups.tab
+
+# Maps color names for edges to their VisAnt specific
+# methods.
+my %colorToMethod = ( # Mappings from color names to VisANT "methods" (which determine edge color)
+	 'default'    => 'M0099'
+   , 'black'      => 'M0099'
+   , 'white'      => 'M9901' # ok, not quite white, but it's the whitest we have
+   , 'gray'       => 'M9901', 'grey'       => 'M9901'
+   , 'red'        => 'M0026'
+   , 'orange'     => 'M0054'   
+   , 'yellow'     => 'M0025'
+   , 'green'      => 'M0010'
+   , 'blue'       => 'M0034'
+   , 'purple'     => 'M0013'
+   , 'brown'      => 'M0033'
+   , 'pink'       => 'M0053'
+   , 'lavender'   => 'M0038'
+   , 'cyan'       => 'M0039'
+   , 'lightblue'  => 'M0041'
+   , 'lightgreen' => 'M0049'
+   , 'darkgreen'  => 'M0050'
+);
+
+my %color2nodeRGB = (    # Mappings from color names to NODE colors
+   'default'      => '200 200 200'
+   , 'black'      => '000 000 000'
+   , 'white'      => '255 255 255'
+   , 'gray'       => '127 127 127', 'grey'       => '127 127 127'
+   , 'red'        => '255 000 000'
+   , 'orange'     => '200 180 000'
+   , 'yellow'     => '255 255 000'
+   , 'green'      => '000 255 000'
+   , 'blue'       => '000 000 255'
+   , 'purple'     => '255 000 255'
+   , 'brown'      => '120 050 000'
+   , 'pink'       => '255 180 180'
+   , 'lavender'	  => '255 127 255'
+   , 'cyan'       => '000 255 255'
+   , 'lightblue'  => '127 255 255'
+   , 'lightgreen' => '000 000 255'
+   , 'darkgreen'  => '000 127 000'
+);
+
+my %indexToColor = (
+	   '0'		=> 'red'
+	,  '1'		=> 'blue'
+	,  '2'		=> 'green'
+	,  '3'		=> 'purple'
+	,  '4'		=> 'yellow'
+	,  '5'		=> 'orange'
+	,  '6'		=> 'brown'
+	,  '7'		=> 'pink'
+	,  '8'		=> 'cyan'
+	,  '9'		=> 'lightblue'
+	, '10'		=> 'lightgreen'
+	, '11'		=> 'darkgreen'
+);
+
+
+
+# NOTE: some additional options are below, parsed by the standard function "GetOptions". Consequently, they do not appear in this list!
+my @flags   = (
+                  [    '-q', 'scalar',     0,     1]
+                , [   '-f1', 'scalar',     1, undef]
+                , [   '-f2', 'scalar',     2, undef]
+                , [    '-f', 'scalar',     1, undef]
+                , [    '-d', 'scalar',  "\t", undef]
+                , [    '-u', 'scalar',     0,     1]
+                , [    '-m', 'scalar', undef, undef] # method: this is for the links.tab file (everything else is for the coordinates file)
+		, [    '-l', 'scalar', undef, undef]
+                , [    '-g', 'scalar', undef, undef]
+                , [    '-t', 'scalar', undef, undef]
+                , [    '-c', 'scalar', undef, undef]
+                , [    '-s', 'scalar', undef, undef]
+                , [    '-h', 'scalar', undef, undef]
+                , [    '-w', 'scalar', undef, undef]
+                , [    '-x', 'scalar', undef, undef]
+                , [    '-y', 'scalar', undef, undef]
+                , [    '-r', 'scalar',     0,     1]
+		, ['--groupfile', 'scalar', undef, undef] # the file with the list of all possible groups (used for coloring edges based on group)
+                , ['--file',   'list',    [], undef]
+              );
+
+my %args = %{&parseArgs(\@ARGV, \@flags, 1)};
+
+my $verbose    = not($args{'-q'});
+my $key_col1   = int($args{'-f1'}) - 1;
+my $key_col2   = int($args{'-f2'}) - 1;
+my $key_col    = int($args{'-f'}) - 1;
+my $method_col = $args{'-m'};
+
+my $type_col   = $args{'-t'};
+my $label_col  = $args{'-l'};
+my $group_col  = $args{'-g'};
+my $color_col  = $args{'-c'};
+my $size_col   = $args{'-s'};
+my $height_col = $args{'-h'};
+my $width_col  = $args{'-w'};
+my $x_col      = $args{'-x'};
+my $y_col      = $args{'-y'};
+my $restrict   = $args{'-r'};
+my $directed   = not($args{'-u'});
+my $delim      = $args{'-d'};
+my $groupfile  = $args{'--groupfile'};
+my @files      = @{$args{'--file'}};
+
+my $nodeColorFilename;
+my %nodeColorMap; # Stores mappings of "node_name -> color"
+
+# IMPORTANT: Note that GetOptions CONSUMES @ARGV--you CAN'T use it afterward)!
+# More info about GetOptions: http://www.perl.com/doc/manual/html/lib/Getopt/Long.html
+GetOptions("help|man|?", sub { print STDOUT <DATA>; exit(0); }
+	   , "version", sub { print STDOUT "Version $VERSION\n"; exit(0); }
+	   , "nodecolors=s" => \$nodeColorFilename
+	   );
+
+if (defined($nodeColorFilename)) {
+    # The colorfile is in the following format:
+    # NODE_NAME   color_name (like red, green, blue, etc. etc)
+    # or
+    # NODE_NAME   000 255 000 (red-green-blue values, suitable for printing below)
+
+    open(NODECOLORFILE, $nodeColorFilename) or die("Could not open the node color file '$nodeColorFilename' (the file with a list of node -> color mappings)");
+    my ($lineNum) = 0;
+    while (my $line = <NODECOLORFILE>) {
+	$lineNum++;
+	chomp($line);
+	if ($line =~ /^\s*\#/) {
+	    # starts with a '#' comment character
+	} elsif ($line =~ /^\s*$/) {
+	    # line is blank
+	} elsif ($line =~ /^(\S+)\s+(\S+)$/) {
+	    # Look for something like "GLIO_.* <TAB> reddish-orange"
+	    # Capture groups are       ( $1  )   and (     $2     )
+	    my $match = $1;
+	    my $colorName = $2;
+	    if (exists($color2nodeRGB{$colorName})) {
+		$nodeColorMap{$match} = $color2nodeRGB{$colorName};
+	    } else {
+		die "Came across an unknown color in the $nodeColorFilename file. The color we read was '$colorName', on line $lineNum.\nThe complete list of valid color abbreviations is found in the tab2vis.pl source file. You can also specify a RRR GGG BBB (red-green-blue, 0-255) triplet to refer to a specific color. For example: MY_DRUG   000 255 000  would specify a bright green for MY_DRUG nodes.\n";
+	    }
+	    
+	} elsif ($line =~ /^(\S+)\s+(\d{1,3}\s+\d{1,3}\s+\d{1,3})\s*$/) {
+	    # Look for something like "GLIO_.* <TAB> 200 150 025"
+	    # Capture groups are       ( $1  )  and  (    $2   )
+	    my $match = $1;
+	    my $colorNumbers = $2;
+	    $nodeColorMap{$match} = $colorNumbers;
+	    
+	} else {
+	    die "Came across an unknown line in the $nodeColorFilename file. The only allowed lines are valid color mappings and comment lines (which begin with '#'). The offending line was:\n$line\nat line number ($lineNum).";
+	}
+    }
+    close(NODECOLORFILE);
+    printVerbose("Done reading node colors from $nodeColorFilename. We read a total of $lineNum lines and " . scalar(keys(%nodeColorMap)) . " mappings.");
+}
+
+if(scalar(@files) == 0)
+{
+	@files = ('-'); # read from STDIN if there are no files
+	printVerbose("No files specified on command line. Reading from STDIN...");
+}
+
+my $OUTFILE = \*STDOUT;
+
+my @edge_attrib_cols = &keepColsIfDefined(($method_col
+										   ));
+
+my @node_attrib_cols = &keepColsIfDefined(( $key_col
+                                          , $type_col
+                                          , $group_col
+                                          , $color_col
+                                          , $size_col
+                                          , $height_col
+                                          , $width_col
+                                          , $x_col
+                                          , $y_col
+                                         ));
+
+print $OUTFILE '<?xml version="1.0"?>', "\n";
+
+print $OUTFILE '<VisAnt ver="1.32" species="sce" nodecount="236" edgeopp="false" fineArt="true">'
+                 , "\n\t" . '<method name="M0029" desc="monoclonal antibody" weight="null" type="E" visible="true" color="0,182,212"/>'
+                 , "\n\t" . '<method name="M0028" desc="mass spectrometry studies of complexes" weight="null" type="E" visible="true" color="255,182,212"/>'
+                 , "\n\t" . '<method name="M0059" desc="genetic synthetic phenotype" weight="null" type="E" visible="true" color="193,100,42"/>'
+                 , "\n\t" . '<method name="M0026" desc="In vitro binding" weight="null" type="E" visible="true" color="255,0,90"/>'
+                 , "\n\t" . '<method name="M0058" desc="genetic suppression" weight="null" type="E" visible="true" color="28,144,242"/>'
+                 , "\n\t" . '<method name="M0025" desc="colocalization by immunostaining" weight="null" type="E" visible="true" color="255,165,0"/>'
+                 , "\n\t" . '<method name="M0057" desc="genetic,suppression expression alteration" weight="null" type="E" visible="true" color="123,109,238"/>'
+                 , "\n\t" . '<method name="M0024" desc="Immunoprecipitation" weight="null" type="E" visible="true" color="105,67,159"/>'
+                 , "\n\t" . '<method name="M0056" desc="genetic,suppression mutation" weight="null" type="E" visible="true" color="0,51,153"/>'
+                 , "\n\t" . '<method name="M0055" desc="genetic,synthetic growth effect" weight="null" type="E" visible="true" color="144,176,17"/>'
+                 , "\n\t" . '<method name="M0054" desc="genetic,conditional synthetic lethal" weight="null" type="E" visible="true" color="242,103,26"/>'
+                 , "\n\t" . '<method name="M0021" desc="western blot" weight="null" type="E" visible="true" color="129,94,42"/>'
+                 , "\n\t" . '<method name="M0053" desc="filter binding" weight="null" type="E" visible="true" color="255,0,204"/>'
+                 , "\n\t" . '<method name="M0020" desc="genetic,tetrad analysis" weight="null" type="E" visible="true" color="204,113,0"/>'
+                 , "\n\t" . '<method name="M0052" desc="fluorescence polarization spectroscopy" weight="null" type="E" visible="true" color="0,153,153"/>'
+                 , "\n\t" . '<method name="M0051" desc="elisa" weight="null" type="0" visible="true" color="193,100,42"/>'
+                 , "\n\t" . '<method name="M0050" desc="phage display" weight="null" type="E" visible="true" color="166,195,96"/>'
+                 , "\n\t" . '<method name="M0019" desc="Gel retardation assays " weight="null" type="E" visible="true" color="158,240,27"/>'
+                 , "\n\t" . '<method name="M0018" desc="molecular sieving" weight="null" type="E" visible="true" color="142,146,215"/>'
+                 , "\n\t" . '<method name="M0049" desc="surface plasmon resonance" weight="null" type="E" visible="true" color="137,220,101"/>'
+                 , "\n\t" . '<method name="M0048" desc="structure based prediction" weight="null" type="E" visible="true" color="174,121,131"/>'
+                 , "\n\t" . '<method name="M0047" desc="genetic,synthetic lethal" weight="null" type="E" visible="true" color="91,167,147"/>'
+                 , "\n\t" . '<method name="M9999" desc="KEGG Pathway" weight="null" type="E" visible="true" color="250,51,131"/>'
+                 , "\n\t" . '<method name="M0014" desc="cross-linking studies" weight="null" type="E" visible="true" color="176,48,96"/>'
+                 , "\n\t" . '<method name="M0046" desc="Bayesian Predicted Interaction" weight="null" type="C" visible="true" color="162,230,60"/>'
+                 , "\n\t" . '<method name="M9901" desc="Connection of Shared Components" weight="null" type="C" visible="true" color="185,191,180"/>'
+                 , "\n\t" . '<method name="M0013" desc="copurification" weight="null" type="E" visible="true" color="85,26,139"/>'
+                 , "\n\t" . '<method name="M0045" desc="affinity chromatography" weight="null" type="E" visible="true" color="139,169,9"/>'
+                 , "\n\t" . '<method name="M0012" desc="Competition binding" weight="null" type="E" visible="true" color="12,254,34"/>'
+                 , "\n\t" . '<method name="M0044" desc="Affinity Precipitation" weight="null" type="E" visible="true" color="8,130,224"/>'
+                 , "\n\t" . '<method name="M0010" desc="coimmunoprecipitation" weight="null" type="E" visible="true" color="25,110,6"/>'
+                 , "\n\t" . '<method name="M0042" desc="Chromatin Immunoprecipitation (ChIP)" weight="null" type="E" visible="true" color="100,14,33"/>'
+                 , "\n\t" . '<method name="M0041" desc="Transcription Factor" weight="null" type="E" visible="true" color="22,214,233"/>'
+                 , "\n\t" . '<method name="M0040" desc="Screened two hybrid test" weight="null" type="E" visible="true" color="232,14,133"/>'
+                 , "\n\t" . '<method name="M0039" desc="transient coexpression" weight="null" type="E" visible="true" color="34,255,209"/>'
+                 , "\n\t" . '<method name="M0006" desc="Affinity Column" weight="null" type="E" visible="true" color="191,88,3"/>'
+                 , "\n\t" . '<method name="M0038" desc="gene neighbourhoods" weight="null" type="C" visible="true" color="205,95,245"/>'
+                 , "\n\t" . '<method name="M0037" desc="phylogenetic profile" weight="null" type="C" visible="true" color="6,185,76"/>'
+                 , "\n\t" . '<method name="M0036" desc="domain fusion" weight="null" type="C" visible="true" color="205,95,138"/>'
+                 , "\n\t" . '<method name="M0099" desc="unknown" weight="null" type="E" visible="true" color="0,0,0"/>'
+                 , "\n\t" . '<method name="M0034" desc="two hybrid" weight="null" type="E" visible="true" color="0,0,255"/>'
+                 , "\n\t" . '<method name="M0033" desc="cosedimentation through density gradients" weight="null" type="E" visible="true" color="125,93,66"/>'
+                 , "\n\t" . '<method name="M0031" desc="Other Biophysical" weight="null" type="E" visible="true" color="125,93,255"/>'
+                 , "\n\t" . '<method name="M0063" desc="colocalization/visualisation technologies" weight="null" type="E" visible="true" color="0,0,0"/>'
+                 , "\n\t" . '<method name="M0030" desc="other genetic" weight="null" type="E" visible="true" color="125,182,97"/>'
+                 , "\n\t" . '<method name="M0062" desc="electron microscopy" weight="null" type="E" visible="true" color="0,0,0"/>'
+                 , "\n\t" . '<method name="M0061" desc="resonance energy transfer" weight="null" type="E" visible="true" color="0,0,0"/>'
+                 , "\n\t" . '<method name="M5001" desc="Tandem Affinity Mass. Spec Complex Determination from Gavin, et al." weight="null" type="g" visible="true" color="0,0,0"/>'
+                 , "\n\t" . '<method name="M0060" desc="far western blotting" weight="null" type="E" visible="true" color="0,0,0"/>'
+                 , "\n"
+                 ;
+
+
+my %groupColors;
+if (defined($groupfile)) {
+	open(GROUPFILE, $groupfile) or die("Could not open group file '$groupfile' (the file with a list of all groups that an item could belong to).");
+	my ($lineNum) = 0;
+	while(my $line = <GROUPFILE>) {
+		chomp($line);
+		# "$line" at this point should be a string something like "WormExpression" or "YeastSga"
+		$groupColors{$line} = $indexToColor{$lineNum};
+		$lineNum++;
+	}
+	close(GROUPFILE);
+	printVerbose("Done reading groups data from $groupfile. We read a total of $lineNum groups.");
+}
+
+my %node_attribs;
+if(scalar(@files) > 1) {
+	open(FILE, $files[1]) or die("Could not open NODES file '$files[1]'.");
+	while(<FILE>) {
+		my @tokens = split($delim);
+		chomp($tokens[$#tokens]);
+		
+		#printVerbose("Tokensize: @tokens.\n");
+		#printVerbose("x column was $x_col, and we got the value $tokens[$x_col-1]");
+				
+		my %attribs;
+		$attribs{'label'}  = defined($label_col)  ? $tokens[$label_col-1] : undef;
+		$attribs{'group'}  = defined($group_col)  ? $tokens[$group_col-1] : undef;
+		$attribs{'size'}   = defined($size_col)   ? $tokens[$size_col-1] : undef;
+		$attribs{'height'} = defined($height_col) ? $tokens[$height_col-1] : undef;
+		$attribs{'width'}  = defined($width_col)  ? $tokens[$width_col-1] : undef;
+		$attribs{'x'}      = defined($x_col)      ? $tokens[$x_col-1] : undef;
+		$attribs{'y'}      = defined($y_col)      ? $tokens[$y_col-1] : undef;
+		$attribs{'type'}   = defined($type_col)   ? $tokens[$type_col-1] : undef;
+		$attribs{'color'}  = defined($color_col)  ? $tokens[$color_col-1] : undef;
+				
+		my $nodeKey = $tokens[$key_col];
+		$node_attribs{$nodeKey} = \%attribs;
+	}
+	close(FILE);
+	
+} # end "if(scalar..."
+
+
+my $graph = &graphReadEdgeList($files[0], $delim, $key_col1, $key_col2, $directed, \@edge_attrib_cols);
+
+if ($restrict) {
+	# restrict to only nodes that were in a specified file (delete all others)
+	$graph = &graphDeleteNodes($graph, \%node_attribs);
+}
+
+print $OUTFILE "\t<Nodes>\n";
+my $nodes = &graphNodes($graph);
+my $index = 0;
+foreach my $node (keys(%{$nodes}))
+{
+	&printNode($node, $graph, \%{$node_attribs{$node}}, $index, $OUTFILE);
+	$index++;
+	if ($index % 500 == 0) {
+		printVerbose("Completed $index out of " . scalar(keys(%{$nodes})) . " nodes...");
+	}
+}
+print $OUTFILE "\t</Nodes>\n";
+
+&printEdges($graph, $OUTFILE);
+
+print $OUTFILE "</VisAnt>\n";
+
+printVerbose("Done!");
+exit(0); # done with the program
+
+
+
+
+# =========== End of main program ===========
+
+
+sub printNode {
+   my ($node, $graph, $attribPtr, $index, $filep) = @_;
+	
+   #printVerbose("x was ${$attribPtr}{'x'}");
+   
+   my $label  = (defined($attribPtr) and defined(${$attribPtr}{'label'}))  ? ${$attribPtr}{'label'}  : $node;
+   my $group  = (defined($attribPtr) and defined(${$attribPtr}{'group'}))  ? ${$attribPtr}{'group'}  : 0;
+   my $x      = (defined($attribPtr) and defined(${$attribPtr}{'x'}))      ? ${$attribPtr}{'x'}      : 250;
+   my $y      = (defined($attribPtr) and defined(${$attribPtr}{'y'}))      ? ${$attribPtr}{'y'}      : 250;
+   #my $color  = (defined($attribPtr) and defined(${$attribPtr}{'color'}))  ? ${$attribPtr}{'color'}  : '200 200 200';
+   my $size   = (defined($attribPtr) and defined(${$attribPtr}{'size'}))   ? ${$attribPtr}{'size'}   : 15;
+   my $width  = (defined($attribPtr) and defined(${$attribPtr}{'width'}))  ? ${$attribPtr}{'width'}  : 15;
+   my $height = (defined($attribPtr) and defined(${$attribPtr}{'height'})) ? ${$attribPtr}{'height'} : 15;
+   my $type   = (defined($attribPtr) and defined(${$attribPtr}{'type'}))   ? ${$attribPtr}{'type'}   : 100;
+   
+   my $num_nbrs = exists($$graph{$node}) ? scalar(keys(%{$$graph{$node}})) 
+                                         : 0;
+   
+   my $rgbNodeColor;
+   if (exists($nodeColorMap{$node})) {
+       # If we specified a node color for this node in the $nodeColorFilename, then set it to that.
+       $rgbNodeColor = $nodeColorMap{$node};
+   } else {
+       $rgbNodeColor = getAveragedEdgeColor($node, $graph);
+   }
+   
+   my $count = $num_nbrs + 1;
+   
+   print $filep "\t\t<VNodes"
+				   , " x=\"$x\""
+				   , " y=\"$y\""
+				   , " counter=\"$count\""
+				   , " w=\"$width\""
+				   , " h=\"$height\""
+				   , " size=\"$size\""
+				   , " ncc=\"$rgbNodeColor\""
+				   , ">\n"
+				   , "\t\t\t<vlabel>$label</vlabel>\n"
+				   , "\t\t\t<data"
+				   , " name=\"$node\""
+				   , " index=\"$index\""
+				   , " type=\"$type\""
+				   , ">\n"
+				   ;
+
+   &printEdgesFromNode($node, $graph, $filep);
+	
+   if(defined($group))
+   {
+      print $filep "\t\t\t\t<group name=\"common\" value=\"$group\"/>\n";
+   }
+
+   print $filep "\t\t\t</data>\n"
+                , "\t\t</VNodes>\n"
+                ;
+}
+
+
+
+sub getAveragedEdgeColor
+{
+	# returns an RGB-style ("200 100 230") color which is the average of the outgoing edge colors.
+	my ($node, $graph) = @_;
+	if (!defined($node) or !defined($graph)) {
+		return "0 0 0";
+	}
+	my $nbrs = $$graph{$node};
+	
+	my $numItems = scalar(keys(%{$nbrs}));
+	my @finalRGB = (0, 0, 0);
+	
+	foreach my $nbr (keys(%{$nbrs}))
+	{
+		my $category = $$nbrs{$nbr};
+		if (defined($groupColors{$category}) &&
+			defined($color2nodeRGB{$groupColors{$category}})) {
+			my $rgb = $color2nodeRGB{$groupColors{$category}};
+			my @rgbArray = split(' ', $rgb);
+			#print STDERR "@rgbArray   ";
+			$finalRGB[0] += $rgbArray[0] / $numItems;
+			$finalRGB[1] += $rgbArray[1] / $numItems;
+			$finalRGB[2] += $rgbArray[2] / $numItems;
+			
+			#print STDERR "\nFinal: @finalRGB\n";
+			#printVerbose('2: ' . $method);
+		}
+	}
+	return int($finalRGB[0]) . ' ' . int($finalRGB[1]) . ' ' . int($finalRGB[2]);
+}
+
+
+sub printEdgesFromNode
+{
+	my ($node, $graph, $filep) = @_;
+	if (defined($node) and defined($graph))
+    {  
+		my $nbrs = $$graph{$node};
+		
+		foreach my $nbr (keys(%{$nbrs}))
+		{
+			my $method = $$nbrs{$nbr};
+			#printVerbose('1: ' . $method);
+			# Originally, "method" is actually the Go category, not a real method for VisANT
+			$method = getMethodFromCategory($method);
+			#printVerbose('2: ' . $method);
+			
+			print $filep "\t\t\t\t<link to=\"$nbr\" method=\"$method\"/>\n";
+						
+		}
+	}
+}
+
+
+
+sub printEdges
+{
+   my ($graph, $filep) = @_;
+   if(defined($graph))
+   {
+      print $filep "\t<Edges>\n";
+	  
+	  my $count = 0;
+      foreach my $node (keys(%{$graph}))
+      {
+         my $nbrs = $$graph{$node};
+         foreach my $nbr (keys(%{$nbrs})) {
+            &printEdge($node, $nbr, $filep);
+         }
+		 
+		 $count++;
+		 if ($count % 500 == 0) {
+			 printVerbose("Completed $count out of " . scalar(keys(%{$graph})) . " runs through the edge-printing loop...");
+		 }
+      }
+      print $filep "\t</Edges>\n";
+   }
+}
+
+sub printEdge
+{
+   my ($from, $to, $filep) = @_;
+   if(defined($from) and defined($to))
+   {
+      print $filep "\t\t<VEdge from=\"$from\" to=\"$to\"/>\n";
+   }
+}
+
+sub keepColsIfDefined
+{
+   my @keeps;
+   foreach my $col (@_)
+   {
+      if(defined($col))
+      {
+         push(@keeps, $col-1);
+      }
+   }
+   return @keeps;
+}
+
+sub getMethodFromCategory {
+	# Given a GO category, returns a VisANT-style method (like M0099, or M1234, or whatever)
+	my ($goCategory) = @_;
+	
+	if (defined($groupColors{$goCategory}) && defined($colorToMethod{ $groupColors{$goCategory} })) {
+		return $colorToMethod{ $groupColors{$goCategory} };
+	} else {
+		return 'M0099'; # this is the default method, if no other one is specified
+	}
+}
+
+sub printVerbose {
+	# A debugging-style function to print status messages, if we are running in verbose mode.
+	my ($msg) = @_;
+	if ($verbose) {
+		print STDERR "tab2vis.pl: ${msg}\n";
+	}
+}
+
+
+
+__DATA__
+syntax: tab2vis.pl [OPTIONS] [LINKS | < LINKS] [NODES]
+
+Prints out a VisANT-formatted XML file for the tab-delimited
+links contained in LINKS.  If a second file NODES is supplied,
+the script reads node attributes from the file.
+
+OPTIONS are:
+
+--help: Prints this screen
+
+-q: Quiet mode (default is verbose)
+
+-f1 COL: The first node id in the LINKS file is COL (default 1).
+
+-f2 COL: The second node id in the LINKS file is COL (default 2).
+
+-m METHOD_COL: Specify where the method column is (default 3).
+
+-d DELIM: Set the field delimiter to DELIM (default is tab).
+
+-u: The graph is undirected (default assumes direction to links).
+
+The rest of the options apply only to a NODES file if supplied:
+
+-f COL: The id for the node is in column COL (default is 1).
+
+-x X_COL: The X-coordinate can be found in column COL (default none).
+
+-y Y_COL: The Y-coordinate can be found in column COL (default none).
+
+-g GROUP_COL: The GROUP_COL contains attributes that group the
+              nodes into meta-nodes (default none).
+
+-t TYPE_COL: The type of the node is in column TYPE_COL
+             (default none and the type is 100).
+
+-c COLOR_COL: The COLOR_COL contains a color for the node.  This
+              can be an RGB description or a common color name
+              (default is none and all nodes are green).
+
+-s SIZE_COL: The SIZE_COL gives the size of the node (default
+             none and all nodes set to 15).
+
+-r: Restrict the network to nodes mentioned in the NODES file.  The
+    default behavior is to include all nodes from the LINKS file and
+    if they are not mentioned in the NODES file then they are associated
+    with default values for all of their attribtues.

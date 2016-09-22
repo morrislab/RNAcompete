@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/rnacompete/!svn/ver/33/trunk/perl5
+END
+RNACexport.pm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/rnacompete/!svn/ver/33/trunk/perl5/RNACexport.pm
+END
+db-connect.conf
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/rnacompete/!svn/ver/31/trunk/perl5/db-connect.conf
+END
+RNACgetNmers.pm
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/rnacompete/!svn/ver/12/trunk/perl5/RNACgetNmers.pm
+END
+RNACstorage.pm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/rnacompete/!svn/ver/10/trunk/perl5/RNACstorage.pm
+END
+RNACio.pm
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/rnacompete/!svn/ver/2/trunk/perl5/RNACio.pm
+END
+align-nmers.pm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/rnacompete/!svn/ver/12/trunk/perl5/align-nmers.pm
+END
+RNACreport.pm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/rnacompete/!svn/ver/33/trunk/perl5/RNACreport.pm
+END
+RNACnmerextract.pm
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/rnacompete/!svn/ver/33/trunk/perl5/RNACnmerextract.pm
+END
+orient-nmers.pm
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/rnacompete/!svn/ver/12/trunk/perl5/orient-nmers.pm
+END

@@ -1,0 +1,6 @@
+x <- rnorm(100)
+y <- rnorm(100)
+h <- hist(x,xlim=c(-3,3),ylim=c(0,20),
+breaks=seq(-3,3,length=30),col="blue")
+par(new=TRUE)
+hist(y,xlim=c(-3,3),ylim=c(0,20),breaks=h$breaks,ann=FALSE,col="red") 
