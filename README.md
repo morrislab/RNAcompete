@@ -63,31 +63,31 @@ Clone or download the code and move the `/RNAcompete` folder to `$HOME` director
 * Add information of RBP interested to `info.tab` and `info_all.tab` files under `~/RNAcompete/RNAcompete_motifs/Data`
 * Edit `~/RNAcompete/RNAcompete_motifs/Data/id.lst` to include only RBPs interested (one RBP_id per line)
 
-#### calculate 7mer scores ####
+#### Calculate 7mer scores ####
 
 ```
 cd ~/RNAcompete/RNAcompete_motifs/Data/Training_Data/; make maker; make doit
 ```
     
-#### calculate motifs ####
+#### Calculate motifs ####
 
 ```
 cd ~/RNAcompete/RNAcompete_motifs/Predictions/pwm_topX_w7/; make maker; make doit
 ```
     
-#### create motif logos ####
+#### Create motif logos ####
 
 ```
 cd ~/RNAcompete/RNAcompete_motifs/Figures/logos/; make maker; make doit
 ```
 
-#### generate IUPAC motifs ####
+#### Generate IUPAC motifs ####
 
 ```
 cd ~/RNAcompete/RNAcompete_motifs/IUPACs/pwm_topX_w7/; make maker; make doit
 ```
 
-#### create HTML output ####
+#### Create HTML output ####
 
 ```
 cd ~/RNAcompete/RNAcompete_motifs/HTML_Reports/; make maker; make doit; make RNAcompete_report_index.html
