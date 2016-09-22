@@ -54,16 +54,40 @@ Clone or download the code and move the `/RNAcompete` folder to `$HOME` director
 #### calculate 7mer scores ####
 
 ```
-cd ~/RNAcompete/RNAcompete_motifs/Data/Training_Data; make maker; make doit
+cd ~/RNAcompete/RNAcompete_motifs/Data/Training_Data;
+make maker;
+make doit
 ```
     
 #### calculate motifs ####
 
 ```
-cd ~/RNAcompete/RNAcompete_motifs/Predictions/pwm_topX_w7; make maker; make doit
+cd ~/RNAcompete/RNAcompete_motifs/Predictions/pwm_topX_w7;
+make maker;
+make doit
 ```
     
-### generate 
+#### create motif logos ####
+
+```
+cd ~/RNAcompete/RNAcompete_motifs/Figures/logos;
+make maker;
+make doit
+```
+
+#### generate IUPAC motifs ####
+
+```
+cd ~/RNAcompete/RNAcompete_motifs/IUPACs;
+make maker;
+make doit
+```
+
+#### create HTML output ####
+
+```
+cd ~/RNAcompete/RNAcompete_motifs/
+```
 
 ## Related Publication ##
 
