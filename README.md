@@ -50,17 +50,17 @@ Clone or download the code and move the `/RNAcompete` folder to `$HOME` director
 * Edit `~/RNAcompete/RNAcompete_motifs/Data/id.lst` to include only RBPs interested (one RBP_id per line)
 
 #### calculate 7mer scores ####
+
     ```
-    cd ~/RNAcompete/RNAcompete_motifs/Data/Training_Data
-    make maker
-    make doit
+    cd ~/RNAcompete/RNAcompete_motifs/Data/Training_Data; make maker; make doit
     ```
+    
 #### calculate motifs ####
+
     ```
-    cd ~/RNAcompete/RNAcompete_motifs/Predictions/pwm_topX_w7
-    make maker
-    make doit
+    cd ~/RNAcompete/RNAcompete_motifs/Predictions/pwm_topX_w7; make maker; make doit
     ```
+    
 ### generate 
 
 ## Related Publication ##
