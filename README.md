@@ -7,7 +7,7 @@ Data analysis scripts for the RNAcompete analysis.
 * [Too be added]
 * We included a **sample** `raw_data.txt` file in this package.
 
-## Running RNAcompete data analysis ##
+## Analyzing RNAcompete data ##
 
 ### 1. Download ###
 
