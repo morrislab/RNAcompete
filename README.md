@@ -26,20 +26,42 @@ Clone or download the code and move the `/RNAcompete` folder to `$HOME` director
 * [ImageMagick](http://www.imagemagick.org/)
 * [REDUCE Suite 2](http://bussemakerlab.org/lab/)
 
-    Download the version compatible with your system and move the `/REDUCE_Suite` folder to `$HOME/RNAcompete`.
+    Download the version compatible with your system and move the `/REDUCE_Suite` folder to `~/RNAcompete`.
 
 ### 3.  Normalization ###
 
-* Download the [raw data sample file]() to `$HOME/RNAcompete/Normalization/run_normalization`
-* Copy files in `$HOME/RNAcompete/Normalization/normalization_scripts` to `$HOME/RNAcompete/Normalization/run_normalization`
+* Download the [raw data sample file]() to `~/RNAcompete/Normalization/run_normalization`
+* Copy and paste everything in `~/RNAcompete/Normalization/normalization_scripts` to `~/RNAcompete/Normalization/run_normalization`
 * Run normalization from `/run_normalization` directory:
     ```
+    cd ~/RNAcompete/Normalization/run_normalization
     ./scripts.sh
     ```
 
 ### 4.  Motif Generation ###
 
+#### RBP data setup ####
 
+* Move the normalization file (`PhaseVII_mad_col_quant_trim_5.txt`) for motif generation:
+    ```
+    mv ~/RNAcompete/Normalization/run_normalization/PhaseVII_mad_col_quant_trim_5.txt ~/RNAcompete/RNAcompete_motifs/Data/normalized_probe_scores
+    ```
+* Add information of RBP interested to `info.tab` and `info_all.tab` files under `~/RNAcompete/RNAcompete_motifs/Data`
+* Edit `~/RNAcompete/RNAcompete_motifs/Data/id.lst` to include only RBPs interested (one RBP_id per line)
+
+#### calculate 7mer scores ####
+    ```
+    cd ~/RNAcompete/RNAcompete_motifs/Data/Training_Data
+    make maker
+    make doit
+    ```
+#### calculate motifs ####
+    ```
+    cd ~/RNAcompete/RNAcompete_motifs/Predictions/pwm_topX_w7
+    make maker
+    make doit
+    ```
+### generate 
 
 ## Related Publication ##
 
