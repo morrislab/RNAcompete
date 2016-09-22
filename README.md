@@ -14,14 +14,16 @@ Clone or download the code and move the `/RNAcompete` folder to `$HOME` director
 
     Add perl scripts to `$PATH` and Perl library:
     ```
-    export PATH=$HOME/RNAcompete/perl5/perl_tools:$PATH
+	export PATH=$HOME/RNAcompete/perl5/perl_tools:$PATH
     export PERL5LIB=$HOME/RNAcompete/perl5/perl_tools:$HOME/RNAcompete/perl5/modules:$PERL5LIB
     ```
 * [Matlab 2015b](https://www.mathworks.com/)
 * [R](https://www.r-project.org/)
 * [ImageMagick](http://www.imagemagick.org/)
 * [REDUCE Suite 2](http://bussemakerlab.org/lab/)
-* 
+
+	Download the version compatible with your system, unzip and move the `/REDUCE_Suite` folder to `$HOME/RNAcompete`
+
 
 ### 2. Normalization ###
 ### 3. Motif Generation ###
@@ -33,6 +35,3 @@ Clone or download the code and move the `/RNAcompete` folder to `$HOME` director
 * D. Ray, H. Kazan, K.B. Cook, M.T. Weirauch, H.S. Najafabadi, X. Li, S. Gueroussov, M. Albu, H. Zheng, A. Yang, H. Na, M. Irimia, L.H. Matzat, R.K. Dale, S.A. Smith, C.A. Yarosh, S.M. Kelly, B. Nabet, D. Mecenas, W. Li, R.S. Laishram, M. Qiao, H.D. Lipshitz, F. Piano, A.H. Corbett, R.P. Carstens, B.J. Frey, R.A. Anderson, K.W. Lynch, L.O. Penalva, E.P. Lei, A.G. Fraser, B.J. Blencowe, Q.D. Morris, T.R. Hughes, **A compendium of RNA-binding motifs for decoding gene regulation**, *Nature* 499(7457) (2013) 172-7. [[Pubmed]](http://www.ncbi.nlm.nih.gov/pubmed/23846655)
 
 * D. Ray, H. Kazan, E.T. Chan, L. Pena Castillo, S. Chaudhry, S. Talukder, B.J. Blencowe, Q. Morris, T.R. Hughes, **Rapid and systematic analysis of the RNA recognition specificities of RNA-binding proteins**, *Nature biotechnology*27(7) (2009) 667-70. [[Pubmed]](http://www.ncbi.nlm.nih.gov/pubmed/19561594)
-
-
-
