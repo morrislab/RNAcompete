@@ -64,7 +64,7 @@ Clone or download the code and move the `/RNAcompete` folder to `$HOME` director
 
 #### RBP data setup ####
 
-* Move the normalization file (`PhaseVII_mad_col_quant_trim_5.txt`) for motif generation:
+* Move the normalized intensity file (`PhaseVII_mad_col_quant_trim_5.txt`) to motif generation directories:
 
     ```
     mkdir ~/RNAcompete/RNAcompete_motifs/Data/normalized_probe_scores;
