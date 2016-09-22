@@ -17,10 +17,12 @@ Clone or download the code and move the `/RNAcompete` folder to `$HOME` director
 * [Perl 5](https://www.perl.org/)
 
     Add perl scripts to `$PATH` and Perl library:
+    
     ```
     export PATH=$HOME/RNAcompete/perl5/perl_tools:$PATH;
     export PERL5LIB=$HOME/RNAcompete/perl5/perl_tools:$HOME/RNAcompete/perl5/modules:$PERL5LIB
     ```
+    
 * [Matlab 2015b](https://www.mathworks.com/)
 * [R](https://www.r-project.org/)
 * [ImageMagick](http://www.imagemagick.org/)
@@ -43,6 +45,11 @@ Clone or download the code and move the `/RNAcompete` folder to `$HOME` director
 
 * Download the [raw data sample file]() to `~/RNAcompete/Normalization/run_normalization`
 * Copy and paste everything in `~/RNAcompete/Normalization/normalization_scripts` to `~/RNAcompete/Normalization/run_normalization`
+    
+    ```
+    cp -r ~/RNAcompete/Normalization/normalization_scripts/* ~/RNAcompete/Normalization/run_normalization
+    ```
+    
 * Run normalization from `/run_normalization` directory:
 
     ```
