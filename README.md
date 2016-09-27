@@ -42,7 +42,19 @@ Clone or download the code and move the `/RNAcompete` folder to `$HOME` director
     export REDUCE_SUITE=$HOME/RNAcompete/REDUCE_Suite;
     export PATH=$HOME/RNAcompete/REDUCE_Suite/bin:$PATH
     ```
-
+  * The default colors in REDUCE_Suite for nucleotides are A, green; C, blue; G, orange; U, cyan. Users may customize the coloring scheme by editing the following code in `~/RNAcompete/REDUCE_Suite/html/LogoGenerator_PS.def`:
+    
+    ```
+    /colorDict <<
+    (A) green       (a) m_green
+    (C) blue        (c) m_blue
+    (G) orange      (g) m_orange
+    (T) red         (t) m_red
+    (U) red         (u) m_red
+    (X) white
+    >> def
+    ```
+    
 ### 3.  Normalization ###
 
 * (The raw data file we use is the **example** `raw_data.txt` file in `~/RNAcompete/Normalization/run_normalization/`)
