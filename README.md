@@ -6,7 +6,7 @@ Data analysis scripts for the RNAcompete analysis.
 
 * The input file of the analysis is named `raw_data.txt`. The first column of `raw_data.txt` indicates the probe ID, and microarray data for each RBP is listed in two columns: one consists of quantified fluorescence signals captured in TIFF images, and the "FLAG" column indicates "poor quality" spots in microarray.
 
-* We included an **example** `raw_data.txt` file in this package.
+* We included an **example** `raw_data.txt` file in folder `/RNAcompete/Normalization/run_normalization`.
 
 ## Analyzing RNAcompete data ##
 
