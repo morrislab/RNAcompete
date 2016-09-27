@@ -50,7 +50,7 @@ Clone or download the code and move the `/RNAcompete` folder to `$HOME` director
     (C) blue        (c) m_blue
     (G) orange      (g) m_orange
     (T) red         (t) m_red
-    (U) red         (u) m_red
+    (U) cyan        (u) m_cyan
     (X) white
     >> def
     ```
