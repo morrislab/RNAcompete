@@ -1,6 +1,6 @@
 # RNAcompete #
 
-Data analysis scripts for the RNAcompete analysis.
+Data analysis scripts for RNAcompete.
 
 ## Input file ##
 
