@@ -126,4 +126,4 @@ cd ~/RNAcompete/RNAcompete_motifs/HTML_Reports/; make maker; make doit; make RNA
 
 #
 
-For questions, please email kun.nie[at]mail.utoronto.ca
+For questions, please email **kun.nie[at]mail.utoronto.ca**
