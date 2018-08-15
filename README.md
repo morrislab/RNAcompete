@@ -103,7 +103,7 @@ cd ~/RNAcompete/RNAcompete_motifs/Predictions/pwm_topX_w7/; make maker; make doi
 #### Create motif logos ####
 
 ```
-cd ~/RNAcompete/RNAcompete_motifs/Figures/logos/; make maker; make doit
+cd ~/RNAcompete/RNAcompete_motifs/Figures/Logos/; make maker; make doit
 ```
 
 #### Generate IUPAC motifs ####
