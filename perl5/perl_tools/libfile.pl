@@ -499,7 +499,7 @@ sub expandPath
   $file =~ s/~/$home/ge;
   $file =~ s/\$HOME/$home/ge;
   $file =~ s/\$\(HOME\)/$home/ge;
-  $file =~ s/\${HOME}/$home/ge;
+  $file =~ s/\$\{HOME\}/$home/ge;
   # print STDERR "'$file'\n";
 
   $file = &expandEnv($file);
