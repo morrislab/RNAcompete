@@ -208,7 +208,7 @@ while(@ARGV)
 
 # open(SYN,">/tmp/syns");
 
-if(defined(@fill_lines) and $#fill_lines>=0)
+if(scalar(@fill_lines) and $#fill_lines>=0)
 {
 	if(not(defined($fill)) or length($fill) == 0)
 	{
